@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="tile">
+                <div class="wrapper">
+                    <h1 class="header">Edificio Wayne</h1>
+
+                    <h2>Listado de Peticiones</h2>
+                    {# HEADERS  #}
+                    <div class="dates">
+                        <div class="start">
+                            Piso Origen
+                            <span></span>
+                        </div>
+                        <div class="ends">
+                            Piso Destino
+                        </div>
+                        <div class="other">
+                            Elevador Utilizado
+                        </div>
+                        <div class="other">
+                            Pisos recorridos
+                        </div>
+                        <div class="other">
+                            Otros elevadores
+                        </div>
+                    </div>
+                    {# Recorrer peticiones  #}
+                    {% for request in requests %}
+                        <div class="dates">
+                            <div class="start">
+                                <strong>{{ request.originFloor == 0 ? 'Planta Baja' :  request.originFloor }}</strong>
+                            </div>
+                            <div class="ends">
+                                <strong>{{ request.destinationFloor == 0 ? 'Planta Baja' : request.destinationFloor }}</strong>
+                            </div>
+
+                            <div>
+                                <strong>{{ request.usedElevator.id }}</strong>
+                            </div>
+
+                            <div>
+                                <strong>{{ (request.destinationFloor - request.originFloor) | abs }}</strong>
+                            </div>
+                            <div>
+                                <strong>
+                                {% for requestElevator in request.requestElevators %}
+                                    {# Mostrar solo los elevadores distintos al utilizado  #}
+                                    {% if  requestElevator.elevator.id != request.usedElevator.id %}
+                                        Elevador:  {{ requestElevator.elevator.id }} -> Planta: {{ requestElevator.currentFloor == 0 ? 'Planta Baja' :  requestElevator.currentFloor }}
+                                    {% endif %}
+                                {% endfor %}
+                                </strong>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
