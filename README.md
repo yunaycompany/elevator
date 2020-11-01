@@ -6,6 +6,7 @@ git clone ...
 
  cd elevator/
  Crear .env usando el .env.dist 
+ 
  composer install
  php bin/console doctrine:database:create
  php bin/console doctrine:migrations:migrate
